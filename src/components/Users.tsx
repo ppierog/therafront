@@ -1,7 +1,6 @@
 
-import ListGroup from 'react-bootstrap/ListGroup';
 import React from 'react';
-import { User } from './ApiTypes';
+import { User } from '../ApiTypes';
 import { Table } from 'react-bootstrap';
 
 interface UsersProps {
