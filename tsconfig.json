@@ -1,0 +1,10 @@
+{
+    "baseUrl": "./src",
+    "compilerOptions": {
+        "jsx": "react",
+        "esModuleInterop": true
+    },
+    "files": [
+        "globals.d.ts"
+    ]
+}
