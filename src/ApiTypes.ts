@@ -23,6 +23,23 @@ export type Patient = {
     telephoneNumber: string
 }
 
+export type Note = {
+	id : Number,
+	name : string,
+	patientRowId : Number,
+    sessionDate : Number,
+    noteDate  : Number,
+    fileName  : String,
+    isCrypted : Boolean
+}
+export type Manifest = {
+    id: Number,
+    patientId: Number,
+    userId: Number,
+    crudMask: Number,
+    encryptedAes: string
+}
+
 export type LoginCreds = {
     email: string,
     password: string,

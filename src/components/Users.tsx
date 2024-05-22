@@ -12,6 +12,7 @@ export function Users(props: UsersProps) {
     const users = props.users
 
     return (
+        <header className="App-header">
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -36,6 +37,7 @@ export function Users(props: UsersProps) {
 
             </tbody>
         </Table>
+        </header>
     )
 
 }

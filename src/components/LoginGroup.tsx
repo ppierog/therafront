@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Form, FormGroup, FormControl, FormLabel } from 'react-bootstrap'
 import { useState } from 'react'
-import { apiLogin } from '../restApi';
+import { apiLogin } from '../restApi'
+import { UserSession } from '../ApiTypes'
 
-import { UserSession } from '../ApiTypes';
-import logo from '../logo.svg';
+import logo from '../logo.svg'
 
 interface LoginGroupProps {
-    updateSession: (v: UserSession) => void;
+    updateSession: (v: UserSession) => void
 }
 
 

@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Patient } from '../ApiTypes';
-import { Table } from 'react-bootstrap';
+import { Patient } from '../ApiTypes'
+import { Table } from 'react-bootstrap'
 
 interface PatientsProps {
     patients: Patient[]
@@ -13,6 +13,7 @@ export function Patients(props: PatientsProps) {
     const patients = props.patients
 
     return (
+        <header className="App-header">
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -39,6 +40,7 @@ export function Patients(props: PatientsProps) {
 
             </tbody>
         </Table>
+        </header>
     )
 
 }
