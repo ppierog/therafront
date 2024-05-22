@@ -1,0 +1,50 @@
+{
+    "navAdm" : {
+        "users" : "Users",
+        "patients" : "Patients",
+        "manifests" : "Manifests",
+        "notes" :"Notes"
+    },
+
+    "loginGroup" : {
+        "login" : "Login",
+        "emailAddress" : "Email Address",
+        "emailEnter" : "Enter email",
+        "password" : "Password",
+        "passwordEnter" : "Enter password",
+        "register" : "Register"
+    },
+
+    "manifests" : {
+        "patientId" : "Patient Id",
+        "userId" : "User Id",
+        "crudMask" : "CRUD Mask",
+        "encryptedAES" : "Encrypted AES Key"
+    },
+
+    "patients" : {
+        "name" : "Name",
+        "occupation" : "Occupation",
+        "birthYear" : "Birth year",
+        "city" : "City",
+        "telephoneNumber" : "Telephone Number"
+    },
+
+    "notes" : {
+        "name" : "Name",
+        "patientId" : "Patient Id",
+        "sessionDate" : "Session Date",
+        "noteDate" : "Note Date",
+        "fileName" : "File Name",
+        "isCrypted" :"Is Crypted",
+        "true" : "True",
+        "false" : "False"
+    },
+
+    "users" : {
+        "name" : "Name",
+        "lastName" : "Last Name",
+        "email" : "Email",
+        "telephoneNumber" : "Telephone Number"
+    }
+}

@@ -1,7 +1,9 @@
 
-import React from 'react';
+import React, { useTransition } from 'react'
 import { Patient } from '../ApiTypes'
 import { Table } from 'react-bootstrap'
+import { AdmNav } from './AdmNav'
+import { useTranslation } from 'react-i18next'
 
 interface PatientsProps {
     patients: Patient[]
@@ -11,18 +13,20 @@ interface PatientsProps {
 export function Patients(props: PatientsProps) {
 
     const patients = props.patients
+    const {t} = useTranslation('common')
 
     return (
         <header className="App-header">
+        <AdmNav/>
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Occupation</th>
-                    <th>Birth year</th>
-                    <th>City</th>
-                    <th>Telphone Number</th>
+                    <th>{t('patients.name')}</th>
+                    <th>{t('patients.occupation')}</th>
+                    <th>{t('patients.birthYear')}</th>
+                    <th>{t('patients.city')}</th>
+                    <th>{t('patients.telephoneNumber')}</th>
                 </tr>
             </thead>
             <tbody>

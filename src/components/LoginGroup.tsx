@@ -5,6 +5,7 @@ import { apiLogin } from '../restApi'
 import { UserSession } from '../ApiTypes'
 
 import logo from '../logo.svg'
+import { useTranslation } from 'react-i18next';
 
 interface LoginGroupProps {
     updateSession: (v: UserSession) => void
@@ -16,6 +17,7 @@ export function LoginGroup(props: LoginGroupProps) {
     const [emailValue, setEmailValue] = useState('')
     const [passwdValue, setPasswdValue] = useState('')
 
+    const {t} = useTranslation('common')
 
     function login(event) {
 
@@ -42,15 +44,16 @@ export function LoginGroup(props: LoginGroupProps) {
 
             <Form>
                 <FormGroup className="mb-3" controlId="formGroupEmail">
-                    <FormLabel>Email address</FormLabel>
-                    <FormControl type="email" placeholder="Enter email" onChange={onInputEmailchange}></FormControl>
+                    <FormLabel>{t('loginGroup.emailAddress')}</FormLabel>
+                    <FormControl type="email" placeholder={t('loginGroup.emailEnter')} onChange={onInputEmailchange}></FormControl>
                 </FormGroup>
                 <FormGroup className="mb-3" controlId="formGroupPassword">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl type="password" placeholder="Password" onChange={onInputPasswdchange} />
+                    <FormLabel>{t('loginGroup.password')}</FormLabel>
+                    <FormControl type="password" placeholder={t('loginGroup.passwordEnter')} onChange={onInputPasswdchange} />
                 </FormGroup>
-                <Button onClick={login}>Login</Button>
-                <Button >Register</Button>
+                <Button onClick={login} className="me-1">{t('loginGroup.login')}</Button>
+
+                <Button className="me-1">{t('loginGroup.register')}</Button>
             </Form>
         </header>
     )

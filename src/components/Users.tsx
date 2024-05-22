@@ -1,7 +1,9 @@
 
-import React from 'react';
-import { User } from '../ApiTypes';
-import { Table } from 'react-bootstrap';
+import React from 'react'
+import { User } from '../ApiTypes'
+import { Table } from 'react-bootstrap'
+import { AdmNav } from './AdmNav'
+import { useTranslation } from 'react-i18next'
 
 interface UsersProps {
     users: User[]
@@ -10,17 +12,20 @@ interface UsersProps {
 export function Users(props: UsersProps) {
 
     const users = props.users
+    const {t} = useTranslation('common')
+
 
     return (
         <header className="App-header">
+        <AdmNav/>
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Telphone Number</th>
+                    <th>{t('users.name')}</th>
+                    <th>{t('users.lastName')}</th>
+                    <th>{t('users.email')}</th>
+                    <th>{t('users.telephoneNumber')}</th>
                 </tr>
             </thead>
             <tbody>

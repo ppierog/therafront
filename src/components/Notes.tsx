@@ -1,7 +1,9 @@
 
-import React from 'react';
+import React from 'react'
 import { Note } from '../ApiTypes'
 import { Table } from 'react-bootstrap'
+import { AdmNav } from './AdmNav'
+import { useTranslation } from 'react-i18next'
 
 interface NotesProps {
     notes: Note[]
@@ -10,19 +12,22 @@ interface NotesProps {
 export function Notes(props: NotesProps) {
 
     const notes = props.notes
+    const {t} = useTranslation('common')
 
     return (
         <header className="App-header">
+        <AdmNav/>
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Patient Id </th>
-                    <th>Session Date</th>
-                    <th>Note Date</th>
-                    <th>file Name</th>
-                    <th>Is Crypted</th>
+                    <th>{t('notes.name')}</th>
+                    <th>{t('notes.patientId')}</th>
+                    <th>{t('notes.sessionDate')}</th>
+                    <th>{t('notes.noteDate')}</th>
+                    <th>{t('notes.fileName')}</th>
+                    <th>{t('notes.isCrypted')}</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +40,7 @@ export function Notes(props: NotesProps) {
                         <td>{e.sessionDate.toString()}</td>
                         <td>{e.noteDate.toString()}</td>
                         <td>{e.fileName}</td>
-                        <td>{e.isCrypted? "TRUE" : "FALSE"}</td>
+                        <td>{e.isCrypted?  t('notes.true'): t('notes.false')}</td>
                     </tr>)
                 )}
 

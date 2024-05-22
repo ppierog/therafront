@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import './App.css'
 import { useState } from 'react'
 import { LoginGroup, Notes, Users, Patients, Manifests } from './components/Components'

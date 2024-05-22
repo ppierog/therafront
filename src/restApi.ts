@@ -1,4 +1,4 @@
-import { UserSession, User, LoginCreds, Patient, Note, Manifest } from "./ApiTypes";
+import { UserSession, User, LoginCreds, Patient, Note, Manifest } from "./ApiTypes"
 
 const apiAddress = 'http://localhost:8080'
 
