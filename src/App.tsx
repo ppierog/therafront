@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import { useState } from 'react'
 import { LoginGroup, Notes, Users, Patients, Manifests } from './components/Components'
@@ -18,6 +18,9 @@ export default function App() {
   const [notes, setNotes] = useState<Note[]>([])
   const [manifests, setManifests] = useState<Manifest[]>([])
 
+  useEffect(() => {
+    document.title = "TheraLog"
+ }, []);
 
   const navigate = useNavigate();
 
@@ -55,7 +58,7 @@ export default function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginGroup updateSession={loginHandler} />} />
-        <Route path="/users" element={<Users users={users} />} />
+        <Route path="/users" element={<Users users={users} session={session}/>} />
         <Route path="/patients" element={<Patients patients={patients} />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
         <Route path="/manifests" element={<Manifests manifests={manifests} />} />
