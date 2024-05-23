@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Note } from '../ApiTypes'
-import { Table } from 'react-bootstrap'
+import { Button, Table } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
 
@@ -16,7 +16,7 @@ export function Notes(props: NotesProps) {
 
     return (
         <header className="App-header">
-        <AdmNav/>
+        <AdmNav activeKey='/notes'/>
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -27,13 +27,14 @@ export function Notes(props: NotesProps) {
                     <th>{t('notes.noteDate')}</th>
                     <th>{t('notes.fileName')}</th>
                     <th>{t('notes.isCrypted')}</th>
+                    <th>{t('actions.actions')}</th>
 
                 </tr>
             </thead>
             <tbody>
 
                 {notes.map(e => (
-                    <tr>
+                    <tr key={e.id.toString()}>
                         <td>{e.id.toString()}</td>
                         <td>{e.name}</td>
                         <td>{e.patientRowId.toString()}</td>
@@ -41,6 +42,11 @@ export function Notes(props: NotesProps) {
                         <td>{e.noteDate.toString()}</td>
                         <td>{e.fileName}</td>
                         <td>{e.isCrypted?  t('notes.true'): t('notes.false')}</td>
+                        <td>
+                            <Button variant="primary">{t('actions.add')}</Button>{' '}
+                            <Button variant="secondary">{t('actions.edit')}</Button>{' '}
+                            <Button variant="danger">{t('actions.delete')}</Button>{' '}
+                        </td>
                     </tr>)
                 )}
 

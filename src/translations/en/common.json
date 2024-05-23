@@ -1,4 +1,12 @@
 {
+    "actions" : {
+        "actions" : "Actions",
+        "add" : "Add",
+        "delete" : "Delete",
+        "edit" : "Edit",
+        "close"  :"Close"
+    },
+
     "navAdm" : {
         "users" : "Users",
         "patients" : "Patients",
@@ -45,6 +53,8 @@
         "name" : "Name",
         "lastName" : "Last Name",
         "email" : "Email",
-        "telephoneNumber" : "Telephone Number"
+        "telephoneNumber" : "Telephone Number",
+        "addUser" : "Add User",
+        "deleteUser" : "Delete User"
     }
 }

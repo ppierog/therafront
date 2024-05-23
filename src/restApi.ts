@@ -2,24 +2,32 @@ import { UserSession, User, LoginCreds, Patient, Note, Manifest } from "./ApiTyp
 
 const apiAddress = 'http://localhost:8080'
 
-export async function apiLogin(login: LoginCreds): Promise<UserSession> {
+export async function postObject<REQUEST, RESPONSE>(object: REQUEST, url:string,  session?: UserSession): Promise<RESPONSE> {
 
     const requestOptions = {
 
         method: 'POST',
-        body: JSON.stringify({ email: login.email, password: login.password })
+
+        headers: {
+            'Token': session ? session.token : "",
+            'Origin': 'localhost'
+        },
+        body: JSON.stringify(object)
     };
 
     try {
-        const response = await fetch(apiAddress + '/login', requestOptions)
+        const response = await fetch(apiAddress + url, requestOptions)
 
         if (!response.ok) {
             throw new Error('Network response was not ok')
         }
 
-        const data = await response.json()
-        const stringified = JSON.stringify(data)
-        return JSON.parse(stringified)
+        var _r : RESPONSE
+        if (typeof (_r)) {
+            const data : RESPONSE = await response.json()
+            const stringified = JSON.stringify(data)
+            return JSON.parse(stringified)
+        }
 
     } catch (err) {
         console.log(err)
@@ -54,6 +62,37 @@ export async function getObjects<Type>(session: UserSession, apiLink: string) : 
     return []
 }
 
+
+export async function deleteObject(url: string , objectId: Number, session : UserSession): Promise<void> {
+
+    const requestOptions = {
+
+        method: 'DELETE',
+
+        headers: {
+            'Token': session.token,
+            'Origin': 'localhost'
+        },
+    };
+
+    try {
+        const response = await fetch(apiAddress + url + objectId.toString(), requestOptions)
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok')
+        }
+
+        await response.text()
+        return
+
+    } catch (err) {
+        console.log(err)
+        return Promise.reject()
+    }
+
+}
+
+
 export async function getUsers(session: UserSession): Promise<User[]> {
     return getObjects<User>(session, "/users")
 }
@@ -68,4 +107,16 @@ export async function getNotes(session : UserSession) : Promise<Note[]> {
 
 export async function getManifests(session : UserSession) : Promise<Manifest[]> {
     return getObjects<Manifest>(session, "/manifests")
+}
+
+export async function apiLogin(login: LoginCreds): Promise<UserSession> {
+    return postObject<LoginCreds,UserSession>(login, "/login")
+}
+
+export async function postUser(user: User, session: UserSession): Promise<User> {
+    return postObject(user, "/users", session)
+}
+
+export async function deleteUser(userId: Number, session: UserSession): Promise<void> {
+    return deleteObject("/users/",userId, session)
 }

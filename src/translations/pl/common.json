@@ -1,4 +1,12 @@
 {
+    "actions" : {
+        "actions" : "Operacje",
+        "add" : "Dodaj",
+        "delete" : "Usuń",
+        "edit" : "Modyfikuj",
+        "close" :"Zamknij"
+    },
+
     "navAdm" : {
         "users" : "Użytkownicy",
         "patients" : "Pacjęci",
@@ -45,7 +53,9 @@
         "name" : "Imię",
         "lastName" : "Nazwisko",
         "email" : "Email",
-        "telephoneNumber" : "Numer Telefonu"
+        "telephoneNumber" : "Numer Telefonu",
+        "addUser" : "Dodaj użytkownika",
+        "deleteUser" : "Usuń uzytkownika"
     }
 
 }
