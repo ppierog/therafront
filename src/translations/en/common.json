@@ -1,60 +1,66 @@
 {
-    "actions" : {
-        "actions" : "Actions",
-        "add" : "Add",
-        "delete" : "Delete",
-        "edit" : "Edit",
-        "close"  :"Close"
+    "actions": {
+        "actions": "Actions",
+        "add": "Add",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close"
     },
-
-    "navAdm" : {
-        "users" : "Users",
-        "patients" : "Patients",
-        "manifests" : "Manifests",
-        "notes" :"Notes"
+    "navAdm": {
+        "users": "Users",
+        "patients": "Patients",
+        "manifests": "Manifests",
+        "notes": "Notes"
     },
-
-    "loginGroup" : {
-        "login" : "Login",
-        "emailAddress" : "Email Address",
-        "emailEnter" : "Enter email",
-        "password" : "Password",
-        "passwordEnter" : "Enter password",
-        "register" : "Register"
+    "loginGroup": {
+        "login": "Login",
+        "emailAddress": "Email Address",
+        "emailEnter": "Enter email",
+        "password": "Password",
+        "passwordEnter": "Enter password",
+        "register": "Register"
     },
-
-    "manifests" : {
-        "patientId" : "Patient Id",
-        "userId" : "User Id",
-        "crudMask" : "CRUD Mask",
-        "encryptedAES" : "Encrypted AES Key"
+    "manifests": {
+        "patientId": "Patient Id",
+        "userId": "User Id",
+        "crudMask": "CRUD Mask",
+        "encryptedAES": "Encrypted AES Key"
     },
-
-    "patients" : {
-        "name" : "Name",
-        "occupation" : "Occupation",
-        "birthYear" : "Birth year",
-        "city" : "City",
-        "telephoneNumber" : "Telephone Number"
+    "patients": {
+        "addPatient": "Add Patient",
+        "name": "Name",
+        "occupation": "Occupation",
+        "birthYear": "Birth year",
+        "city": "City",
+        "telephoneNumber": "Telephone Number",
+        "nameEnter": "Enter Name",
+        "occupationEnter": "Enter Occupation",
+        "enterBirthYear": "Enter Birth Year",
+        "enterCity": "Enter City",
+        "enterTelephoneNumber": "Enter Telephone Number"
     },
-
-    "notes" : {
-        "name" : "Name",
-        "patientId" : "Patient Id",
-        "sessionDate" : "Session Date",
-        "noteDate" : "Note Date",
-        "fileName" : "File Name",
-        "isCrypted" :"Is Crypted",
-        "true" : "True",
-        "false" : "False"
+    "notes": {
+        "name": "Name",
+        "patientId": "Patient Id",
+        "sessionDate": "Session Date",
+        "noteDate": "Note Date",
+        "fileName": "File Name",
+        "isCrypted": "Is Crypted",
+        "true": "True",
+        "false": "False"
     },
-
-    "users" : {
-        "name" : "Name",
-        "lastName" : "Last Name",
-        "email" : "Email",
-        "telephoneNumber" : "Telephone Number",
-        "addUser" : "Add User",
-        "deleteUser" : "Delete User"
+    "users": {
+        "name": "Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "telephoneNumber": "Telephone Number",
+        "addUser": "Add User",
+        "deleteUser": "Delete User",
+        "nameEnter": "Enter Name",
+        "lastNameEnter": "Enter Last Name",
+        "emailEnter": "Enter email",
+        "password": "Password",
+        "enterPassword": "Enter Password",
+        "enterTelephoneNumber": "Enter Telephone Number"
     }
 }

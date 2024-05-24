@@ -2,18 +2,16 @@ import { UserSession, User, LoginCreds, Patient, Note, Manifest } from "./ApiTyp
 
 const apiAddress = 'http://localhost:8080'
 
-export async function postObject<REQUEST, RESPONSE>(object: REQUEST, url:string,  session?: UserSession): Promise<RESPONSE> {
+export async function postObject<REQUEST, RESPONSE>(object: REQUEST, url: string, session?: UserSession): Promise<RESPONSE> {
 
     const requestOptions = {
-
         method: 'POST',
-
         headers: {
             'Token': session ? session.token : "",
             'Origin': 'localhost'
         },
         body: JSON.stringify(object)
-    };
+    }
 
     try {
         const response = await fetch(apiAddress + url, requestOptions)
@@ -22,12 +20,9 @@ export async function postObject<REQUEST, RESPONSE>(object: REQUEST, url:string,
             throw new Error('Network response was not ok')
         }
 
-        var _r : RESPONSE
-        if (typeof (_r)) {
-            const data : RESPONSE = await response.json()
-            const stringified = JSON.stringify(data)
-            return JSON.parse(stringified)
-        }
+        const data: RESPONSE = await response.json()
+        const stringified = JSON.stringify(data)
+        return JSON.parse(stringified)
 
     } catch (err) {
         console.log(err)
@@ -36,8 +31,36 @@ export async function postObject<REQUEST, RESPONSE>(object: REQUEST, url:string,
 
 }
 
-export async function getObjects<Type>(session: UserSession, apiLink: string) : Promise<Type[]>
-{
+
+export async function postObjectVoid<REQUEST>(object: REQUEST, url: string, session?: UserSession): Promise<void> {
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Token': session ? session.token : "",
+            'Origin': 'localhost'
+        },
+        body: JSON.stringify(object)
+    }
+
+    try {
+        const response = await fetch(apiAddress + url, requestOptions)
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok')
+        }
+        return
+
+    } catch (err) {
+        console.log(err)
+        return Promise.reject()
+    }
+
+}
+
+
+
+export async function getObjects<Type>(session: UserSession, apiLink: string): Promise<Type[]> {
     try {
 
         const response = await fetch(apiAddress + apiLink, {
@@ -63,17 +86,16 @@ export async function getObjects<Type>(session: UserSession, apiLink: string) : 
 }
 
 
-export async function deleteObject(url: string , objectId: Number, session : UserSession): Promise<void> {
+export async function deleteObject(url: string, objectId: Number, session: UserSession): Promise<void> {
 
     const requestOptions = {
 
         method: 'DELETE',
-
         headers: {
             'Token': session.token,
             'Origin': 'localhost'
         },
-    };
+    }
 
     try {
         const response = await fetch(apiAddress + url + objectId.toString(), requestOptions)
@@ -101,22 +123,29 @@ export async function getPatients(session: UserSession): Promise<Patient[]> {
     return getObjects<Patient>(session, "/patients")
 }
 
-export async function getNotes(session : UserSession) : Promise<Note[]> {
+export async function getNotes(session: UserSession): Promise<Note[]> {
     return getObjects<Note>(session, "/notes")
 }
 
-export async function getManifests(session : UserSession) : Promise<Manifest[]> {
+export async function getManifests(session: UserSession): Promise<Manifest[]> {
     return getObjects<Manifest>(session, "/manifests")
 }
 
 export async function apiLogin(login: LoginCreds): Promise<UserSession> {
-    return postObject<LoginCreds,UserSession>(login, "/login")
+    return postObject<LoginCreds, UserSession>(login, "/login")
 }
 
-export async function postUser(user: User, session: UserSession): Promise<User> {
-    return postObject(user, "/users", session)
+export async function postUser(user: User, session: UserSession): Promise<void> {
+    return postObjectVoid(user, "/users", session)
+}
+
+export async function postPatient(patient: Patient, session: UserSession): Promise<void> {
+    return postObjectVoid(patient, "/patients", session)
 }
 
 export async function deleteUser(userId: Number, session: UserSession): Promise<void> {
-    return deleteObject("/users/",userId, session)
+    return deleteObject("/users/", userId, session)
+}
+export async function deletePatient(patientId: Number, session: UserSession): Promise<void> {
+    return deleteObject("/patients/", patientId, session)
 }
