@@ -20,7 +20,7 @@ export default function App() {
 
   useEffect(() => {
     document.title = "TheraLog"
- }, []);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -58,8 +58,8 @@ export default function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginGroup updateSession={loginHandler} />} />
-        <Route path="/users" element={<Users users={users} session={session}/>} />
-        <Route path="/patients" element={<Patients patients={patients} />} />
+        <Route path="/users" element={<Users users={users} session={session} />} />
+        <Route path="/patients" element={<Patients patients={patients} session={session} />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
         <Route path="/manifests" element={<Manifests manifests={manifests} />} />
       </Routes>

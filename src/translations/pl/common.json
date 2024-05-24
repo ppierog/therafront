@@ -1,61 +1,66 @@
 {
-    "actions" : {
-        "actions" : "Operacje",
-        "add" : "Dodaj",
-        "delete" : "Usuń",
-        "edit" : "Modyfikuj",
-        "close" :"Zamknij"
+    "actions": {
+        "actions": "Operacje",
+        "add": "Dodaj",
+        "delete": "Usuń",
+        "edit": "Modyfikuj",
+        "close": "Zamknij"
     },
-
-    "navAdm" : {
-        "users" : "Użytkownicy",
-        "patients" : "Pacjęci",
-        "manifests" : "Manifesty",
-        "notes" :"Notatki"
+    "navAdm": {
+        "users": "Użytkownicy",
+        "patients": "Pacjęci",
+        "manifests": "Manifesty",
+        "notes": "Notatki"
     },
-
-    "loginGroup" : {
-        "login" : "Login",
-        "emailAddress" : "Adres Email",
-        "emailEnter" : "Wpisz email",
-        "password" : "Hasło",
-        "passwordEnter" : "Wpisz hasło",
-        "register" : "Zarejestruj się"
+    "loginGroup": {
+        "login": "Login",
+        "emailAddress": "Adres Email",
+        "emailEnter": "Wpisz email",
+        "password": "Hasło",
+        "passwordEnter": "Wpisz hasło",
+        "register": "Zarejestruj się"
     },
-
-    "manifests" : {
-        "patientId" : "Id Pacjenta",
-        "userId" : "Id Użytkownika",
-        "crudMask" : "Maska CRUD",
-        "encryptedAES" : "Zaszyfrowany klucz AES"
+    "manifests": {
+        "patientId": "Id Pacjenta",
+        "userId": "Id Użytkownika",
+        "crudMask": "Maska CRUD",
+        "encryptedAES": "Zaszyfrowany klucz AES"
     },
-
-    "patients" : {
-        "name" : "Nazwa",
-        "occupation" : "Zawód",
-        "birthYear" : "Rok urodzenia",
-        "city" : "Miasto",
-        "telephoneNumber" : "Numer Telefonu"
+    "patients": {
+        "addPatient": "Dodaj Pacjenta",
+        "name": "Nazwa",
+        "occupation": "Zawód",
+        "birthYear": "Rok urodzenia",
+        "city": "Miasto",
+        "telephoneNumber": "Numer Telefonu",
+        "nameEnter": "Podaj Imię",
+        "occupationEnter": "Podaj Zawód",
+        "enterBirthYear": "Podaj Datę Urodzenia",
+        "enterCity": "Podaj Miasto",
+        "enterTelephoneNumber": "Podaj numer telefonu"
     },
-
-    "notes" : {
-        "name" : "Nazwa",
-        "patientId" : "Id pacjenta",
-        "sessionDate" : "Data Sesji",
-        "noteDate" : "Data Notatki",
-        "fileName" : "Plik",
-        "isCrypted" :"Zaszyfrowany",
-        "true" : "Tak",
-        "false" : "Nie"
+    "notes": {
+        "name": "Nazwa",
+        "patientId": "Id pacjenta",
+        "sessionDate": "Data Sesji",
+        "noteDate": "Data Notatki",
+        "fileName": "Plik",
+        "isCrypted": "Zaszyfrowany",
+        "true": "Tak",
+        "false": "Nie"
     },
-
-    "users" : {
-        "name" : "Imię",
-        "lastName" : "Nazwisko",
-        "email" : "Email",
-        "telephoneNumber" : "Numer Telefonu",
-        "addUser" : "Dodaj użytkownika",
-        "deleteUser" : "Usuń uzytkownika"
+    "users": {
+        "name": "Imię",
+        "lastName": "Nazwisko",
+        "email": "Email",
+        "telephoneNumber": "Numer Telefonu",
+        "addUser": "Dodaj użytkownika",
+        "deleteUser": "Usuń uzytkownika",
+        "nameEnter": "Podaj Email",
+        "lastNameEnter": "Podaj Nazwisko",
+        "emailEnter": "Podaj email",
+        "password": "Hasło",
+        "enterPassword": "Podaj Hasło",
+        "enterTelephoneNumber": "Podaj Numer Telefonu"
     }
-
 }

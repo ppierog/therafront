@@ -9,61 +9,119 @@ import { deleteUser, postUser } from '../restApi'
 
 interface UsersProps {
     users: User[]
-    session : UserSession
+    session: UserSession
 }
 
 interface UsersTabProps {
     users: User[]
-    onAdd: (event) => void
-    onDelete: (UserId : Number) => void
+    onAdd: () => void
+    onDelete: (UserId: Number) => void
 }
 
 interface UserModalProps {
-    onClose: (event) => void
-    onAdd : (event) => void
+    onClose: () => void
+    onAdd: (user: User) => void
 }
 
-function UserModal( props : UserModalProps ) {
+function UserModal(props: UserModalProps) {
 
-    const {t} = useTranslation('common')
+    const { t } = useTranslation('common')
+    const [user, setUser] = useState<User>({
+        id: -1,
+        email: "",
+        lastName: "",
+        name: "",
+        password: "",
+        pubKey: "",
+        salt: "",
+        telephoneNumber: ""
+    })
+
+    const setUserProp = (properties:
+        "name" | "email" | "lastName" | "password" | "telephoneNumber", value: string) => {
+        var u: User = { ...user }
+        switch (properties) {
+
+            case "name":
+                u.name = value
+                break
+            case "email":
+                u.email = value
+                break
+            case "lastName":
+                u.lastName = value
+                break
+            case "password":
+                u.password = value
+                break
+            case "telephoneNumber":
+                u.telephoneNumber = value
+                break
+
+            default:
+                break
+        }
+
+        setUser(u)
+    }
+
+
     return (
-    <div
-      className="modal show"
-      style={{ display: 'block', position: 'initial', color: "black" }}
-    >
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>{t('users.addUser')}</Modal.Title>
-        </Modal.Header>
+        <div
+            className="modal show"
+            style={{ display: 'block', position: 'initial', color: "black" }}
+        >
+            <Modal.Dialog>
+                <Modal.Header closeButton onClick={_event => props.onClose()}>
+                    <Modal.Title>{t('users.addUser')}</Modal.Title>
+                </Modal.Header>
 
-        <Modal.Body>
-        <Form>
-                <FormGroup className="mb-3" controlId="formGroupEmail">
-                    <FormLabel>{t('loginGroup.emailAddress')}</FormLabel>
-                    <FormControl type="email" placeholder={t('loginGroup.emailEnter')} ></FormControl>
-                </FormGroup>
-                <FormGroup className="mb-3" controlId="formGroupPassword">
-                    <FormLabel>{t('loginGroup.password')}</FormLabel>
-                    <FormControl type="password" placeholder={t('loginGroup.passwordEnter')} />
-                </FormGroup>
-                <Button className="me-1">{t('loginGroup.login')}</Button>
-                <Button className="me-1">{t('loginGroup.register')}</Button>
-            </Form>
-        </Modal.Body>
+                <Modal.Body>
+                    <Form>
+                        <FormGroup className="mb-3" controlId="formGroupName">
+                            <FormLabel>{t('users.name')}</FormLabel>
+                            <FormControl type="text" placeholder={t('users.nameEnter')}
+                                onChange={e => setUserProp("name", e.target.value)}></FormControl>
+                        </FormGroup>
+                        <FormGroup className="mb-3" controlId="formGroupLastName">
+                            <FormLabel>{t('users.lastName')}</FormLabel>
+                            <FormControl type="text" placeholder={t('users.lastNameEnter')}
+                                onChange={e => setUserProp("lastName", e.target.value)} />
+                        </FormGroup>
+                        <FormGroup className="mb-3" controlId="formGroupEmail">
+                            <FormLabel>{t('users.email')}</FormLabel>
+                            <FormControl type="email" placeholder={t('users.emailEnter')}
+                                onChange={e => setUserProp("email", e.target.value)} />
+                        </FormGroup>
+                        <FormGroup className="mb-3" controlId="formGroupPassword">
+                            <FormLabel>{t('users.password')}</FormLabel>
+                            <FormControl type="text" placeholder={t('users.enterPassword')}
+                                onChange={e => setUserProp("password", e.target.value)} />
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={ event => props.onClose(event) }>{t('actions.close')}</Button>
-          <Button variant="primary" onClick={ event => props.onAdd(event) }>{t('users.addUser')}</Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </div>
+                        </FormGroup>
+                        <FormGroup className="mb-3" controlId="formGroupTelephoneNumber">
+                            <FormLabel>{t('users.telephoneNumber')}</FormLabel>
+                            <FormControl type="text" placeholder={t('users.enterTelephoneNumber')}
+                                onChange={e => setUserProp("telephoneNumber", e.target.value)} />
+                        </FormGroup>
+
+                    </Form>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={e_ => props.onClose()}>{t('actions.close')}</Button>
+                    <Button variant="primary" onClick={e_ => props.onAdd(user)}>{t('users.addUser')}</Button>
+                </Modal.Footer>
+            </Modal.Dialog>
+        </div >
     )
 }
 
 function UserTab(props: UsersTabProps) {
 
     const users = props.users
-    const {t} = useTranslation('common')
+
+    const { t } = useTranslation('common')
 
     return (
 
@@ -75,7 +133,9 @@ function UserTab(props: UsersTabProps) {
                     <th>{t('users.lastName')}</th>
                     <th>{t('users.email')}</th>
                     <th>{t('users.telephoneNumber')}</th>
-                    <th>{t('actions.actions')}</th>
+                    <th>{t('actions.actions')}{' '}
+                        <Button variant="primary" onClick={e_ => props.onAdd()}>{t('actions.add')}</Button>{' '}
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -88,7 +148,6 @@ function UserTab(props: UsersTabProps) {
                         <td>{e.email}</td>
                         <td>{e.telephoneNumber}</td>
                         <td>
-                            <Button variant="primary" onClick={ event => props.onAdd(event)}>{t('actions.add')}</Button>{' '}
                             <Button variant="secondary">{t('actions.edit')}</Button>{' '}
                             <Button variant="danger" onClick={_ => props.onDelete(e.id)}>{t('actions.delete')}</Button>{' '}
                         </td>
@@ -106,61 +165,46 @@ export function Users(props: UsersProps) {
     const [showModal, setShowModal] = useState(false)
     const [users, setUsers] = useState(props.users)
 
-    const onTabAdd = (event) => {
-        console.log(event)
+    const onTabAdd = () => {
         setShowModal(true)
     }
 
-    const onTabDelete = (userId : Number) => {
+    const onTabDelete = (userId: Number) => {
         console.log(userId)
-        const modified =  users.filter( (u) =>  u.id !== userId)
 
-        setUsers(modified)
-         deleteUser(userId, props.session).then( _ =>
+        deleteUser(userId, props.session).then(_ =>
             console.log("Request Ok")
-        ).then( _=>
-            setUsers( users.filter( (u) => u.id !== userId))
+        ).then(_ =>
+            setUsers(users.filter((u) => u.id !== userId))
         ).catch(error => console.log(error))
 
     }
 
+    const onAddModal = (user: User) => {
 
-    const onAddModal = (event) => {
+        console.log(user)
 
-        const newUser : User = {
-            id : -1,
-            email: "newemail@gmail.com",
-            lastName: "Extremally New ",
-            name: "User",
-            password: "noPasswd",
-            pubKey: "",
-            salt: "assasasasas",
-            telephoneNumber: "ddsdsddsdsds"
-        }
-
-        postUser(newUser, props.session).then(
-            user => {
+        postUser(user, props.session).then(
+            _ => {
                 console.log(user)
+                setUsers([...users, { ...user, id: users.length + 1 }])
             }
         ).catch(error => console.log(error))
+        setShowModal(false)
 
-        // setShowModal(false)
     }
 
-    const onCloseModal = (event) => {
+    const onCloseModal = () => {
         setShowModal(false)
     }
 
     return (
         <header className="App-header">
-        <AdmNav activeKey='/users'/>
-        { showModal && <UserModal onClose={onCloseModal} onAdd={onAddModal}/>}
-        { !showModal &&
-
-
-        <UserTab users={users} onAdd={onTabAdd} onDelete={onTabDelete}/>
-
-        }
+            <AdmNav activeKey='/users' />
+            {showModal && <UserModal onClose={onCloseModal} onAdd={onAddModal} />}
+            {!showModal &&
+                <UserTab users={users} onAdd={onTabAdd} onDelete={onTabDelete} />
+            }
 
         </header>
     )
