@@ -20,13 +20,13 @@ interface PatientsTabProps {
 }
 
 
-interface UserModalProps {
+interface PatientModalProps {
     onClose: () => void
     onAdd: (patient: Patient) => void
 }
 
 
-function PatientModal(props: UserModalProps) {
+function PatientModal(props: PatientModalProps) {
 
     const { t } = useTranslation('common')
     const [patient, setPatient] = useState<Patient>({
@@ -119,6 +119,7 @@ function PatientModal(props: UserModalProps) {
 }
 
 
+
 function PatientTab(props: PatientsTabProps) {
 
     const patients = props.patients
@@ -135,8 +136,7 @@ function PatientTab(props: PatientsTabProps) {
                     <th>{t('patients.birthYear')}</th>
                     <th>{t('patients.city')}</th>
                     <th>{t('patients.telephoneNumber')}</th>
-                    <th>{t('actions.actions')}
-                        {' '}
+                    <th>{t('actions.actions')}{' '}
                         <Button variant="primary" onClick={e_ => props.onAdd()}>{t('actions.add')}</Button>{' '}
                     </th>
                 </tr>
@@ -164,6 +164,8 @@ function PatientTab(props: PatientsTabProps) {
     )
 
 }
+
+
 
 export function Patients(props: PatientsProps) {
 

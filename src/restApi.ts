@@ -143,9 +143,18 @@ export async function postPatient(patient: Patient, session: UserSession): Promi
     return postObjectVoid(patient, "/patients", session)
 }
 
+export async function postNote(note: Note, session: UserSession): Promise<void> {
+    return postObjectVoid(note, "/notes", session)
+}
+
 export async function deleteUser(userId: Number, session: UserSession): Promise<void> {
+
     return deleteObject("/users/", userId, session)
 }
 export async function deletePatient(patientId: Number, session: UserSession): Promise<void> {
     return deleteObject("/patients/", patientId, session)
+}
+
+export async function deleteNote(noteId: Number, session: UserSession): Promise<void> {
+    return deleteObject("/notes/", noteId, session)
 }

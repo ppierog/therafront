@@ -60,7 +60,7 @@ export default function App() {
         <Route path="/" element={<LoginGroup updateSession={loginHandler} />} />
         <Route path="/users" element={<Users users={users} session={session} />} />
         <Route path="/patients" element={<Patients patients={patients} session={session} />} />
-        <Route path="/notes" element={<Notes notes={notes} />} />
+        <Route path="/notes" element={<Notes notes={notes} session={session} />} />
         <Route path="/manifests" element={<Manifests manifests={manifests} />} />
       </Routes>
     </div >

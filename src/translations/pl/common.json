@@ -24,7 +24,8 @@
         "patientId": "Id Pacjenta",
         "userId": "Id Użytkownika",
         "crudMask": "Maska CRUD",
-        "encryptedAES": "Zaszyfrowany klucz AES"
+        "encryptedAes": "Zaszyfrowany klucz AES",
+        "addManifest": "Dodaj Manifest"
     },
     "patients": {
         "addPatient": "Dodaj Pacjenta",
@@ -40,11 +41,17 @@
         "enterTelephoneNumber": "Podaj numer telefonu"
     },
     "notes": {
+        "addNote": "Dodaj Notatkę",
+        "nameEnter": "Wpisz nazwę",
         "name": "Nazwa",
         "patientId": "Id pacjenta",
+        "enterPatientId": "Wpisz  Id pacjenta",
         "sessionDate": "Data Sesji",
+        "enterSessionDate": "Wpisz datę sesji",
         "noteDate": "Data Notatki",
+        "enterNoteDate": "Wpisz datę notatki",
         "fileName": "Plik",
+        "enterFileName": "Podaj nazwę pliku",
         "isCrypted": "Zaszyfrowany",
         "true": "Tak",
         "false": "Nie"
