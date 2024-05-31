@@ -24,7 +24,8 @@
         "patientId": "Patient Id",
         "userId": "User Id",
         "crudMask": "CRUD Mask",
-        "encryptedAES": "Encrypted AES Key"
+        "encryptedAes": "Encrypted AES Key",
+        "addManifest": "Add Manifest"
     },
     "patients": {
         "addPatient": "Add Patient",
@@ -40,11 +41,17 @@
         "enterTelephoneNumber": "Enter Telephone Number"
     },
     "notes": {
+        "addNote": "Add Note",
+        "nameEnter": "Enter Name",
         "name": "Name",
         "patientId": "Patient Id",
+        "enterPatientId": "Enter Patient Id",
         "sessionDate": "Session Date",
+        "enterSessionDate": "Enter Session Date",
         "noteDate": "Note Date",
+        "enterNoteDate": "Enter Note Date",
         "fileName": "File Name",
+        "enterFileName": "Enter File Name",
         "isCrypted": "Is Crypted",
         "true": "True",
         "false": "False"
