@@ -6,8 +6,9 @@ type HttpMethodType = "DELETE" | "POST" | "GET" | "PUT"
 
 type UrlUser = `/users/${number}`
 type UrlPatient = `/patients/${number}`
+type UrlNote = `/notes/${number}`
 
-type UrlEndpoint = "/login" | "/users" | "/patients" | "/notes" | "/manifests" | UrlUser | UrlPatient
+type UrlEndpoint = "/login" | "/users" | "/patients" | "/notes" | "/manifests" | UrlUser | UrlPatient | UrlNote
 
 class RestRequest {
     request: RequestInit
@@ -132,8 +133,9 @@ export async function postNote(note: Note, session: UserSession): Promise<Id> {
     return postObject(note, "/notes", session)
 }
 
-export async function puttNote(note: Note, session: UserSession): Promise<void> {
-    return putObjectVoid(note, "/notes", session)
+export async function putNote(note: Note, session: UserSession): Promise<void> {
+    const url: UrlNote = `/notes/${note.id}`
+    return putObjectVoid(note, url, session)
 }
 
 export async function putUser(user: User, session: UserSession): Promise<void> {
