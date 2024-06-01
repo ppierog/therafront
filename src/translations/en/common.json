@@ -18,13 +18,14 @@
         "emailEnter": "Enter email",
         "password": "Password",
         "passwordEnter": "Enter password",
+        "encryptedAES": "Encrypted AES",
         "register": "Register"
     },
     "manifests": {
         "patientId": "Patient Id",
         "userId": "User Id",
         "crudMask": "CRUD Mask",
-        "encryptedAes": "Encrypted AES Key",
+        "encryptedAES": "Encrypted AES Key",
         "addManifest": "Add Manifest"
     },
     "patients": {

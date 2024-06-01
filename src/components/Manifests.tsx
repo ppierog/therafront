@@ -4,23 +4,13 @@ import { Manifest } from '../ApiTypes'
 import { Button, Form, FormControl, FormGroup, FormLabel, Modal, Table } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
+import { GenericProps, GenericTabProps, GenericModalProps } from './GenericProps'
 
-interface ManifestsProps {
-    manifests: Manifest[]
-}
+type ManifestsProps = GenericProps<Manifest>
+type ManifestsTabProps = GenericTabProps<Manifest>
+type ManifestModalProps = GenericModalProps<Manifest>
 
-interface ManifestsTabProps {
-    manifests: Manifest[]
-    onAdd: () => void
-    onDelete: (UserId: Number) => void
-}
-
-interface UserModalProps {
-    onClose: () => void
-    onAdd: (patient: Manifest) => void
-}
-
-function ManifestModal(props: UserModalProps) {
+function ManifestModal(props: ManifestModalProps) {
 
     const { t } = useTranslation('common')
     const [manifest, setManifest] = useState<Manifest>({
@@ -57,7 +47,6 @@ function ManifestModal(props: UserModalProps) {
         setManifest(m)
     }
 
-
     return (
         <div
             className="modal show"
@@ -89,9 +78,7 @@ function ManifestModal(props: UserModalProps) {
                             <FormLabel>{t('manifests.encryptedAes')}</FormLabel>
                             <FormControl type="text" placeholder={t('manifests.encryptedAes')}
                                 onChange={e => setManifestProp("encryptedAes", e.target.value)} />
-
                         </FormGroup>
-
                     </Form>
                 </Modal.Body>
 
@@ -106,11 +93,10 @@ function ManifestModal(props: UserModalProps) {
 
 function ManifestsTab(props: ManifestsTabProps) {
 
-    const manifests = props.manifests
+    const manifests = props.elems
     const { t } = useTranslation('common')
 
     return (
-
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -136,17 +122,14 @@ function ManifestsTab(props: ManifestsTabProps) {
                         </td>
                     </tr>)
                 )}
-
             </tbody>
         </Table>
     )
 }
 
-
 export function Manifests(props: ManifestsProps) {
 
-
-    const [manifests, setManifests] = useState(props.manifests)
+    const [manifests, setManifests] = useState(props.elems ? props.elems : [])
     const { t } = useTranslation('common')
     const [showModal, setShowModal] = useState(false)
 
@@ -184,16 +167,11 @@ export function Manifests(props: ManifestsProps) {
         setShowModal(false)
     }
 
-
     return (
         <header className="App-header">
             <AdmNav activeKey='/manifests' />
-            {showModal && <ManifestModal onClose={onCloseModal} onAdd={onAddModal} />}
-            {!showModal &&
-                <ManifestsTab manifests={manifests} onAdd={onTabAdd} onDelete={onTabDelete} />
-            }
-
+            {showModal ? <ManifestModal onClose={onCloseModal} onAdd={onAddModal} /> :
+                <ManifestsTab elems={manifests} onAdd={onTabAdd} onDelete={onTabDelete} />}
         </header>
-
     )
 }

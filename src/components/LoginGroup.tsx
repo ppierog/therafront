@@ -11,13 +11,12 @@ interface LoginGroupProps {
     updateSession: (v: UserSession) => void
 }
 
-
 export function LoginGroup(props: LoginGroupProps) {
 
     const [emailValue, setEmailValue] = useState('')
     const [passwdValue, setPasswdValue] = useState('')
 
-    const {t} = useTranslation('common')
+    const { t } = useTranslation('common')
 
     function login(event) {
 
@@ -51,8 +50,8 @@ export function LoginGroup(props: LoginGroupProps) {
                     <FormLabel>{t('loginGroup.password')}</FormLabel>
                     <FormControl type="password" placeholder={t('loginGroup.passwordEnter')} onChange={onInputPasswdchange} />
                 </FormGroup>
-                <Button onClick={login} className="me-1">{t('loginGroup.login')}</Button>
 
+                <Button onClick={login} className="me-1">{t('loginGroup.login')}</Button>
                 <Button className="me-1">{t('loginGroup.register')}</Button>
             </Form>
         </header>

@@ -1,30 +1,16 @@
 
-import { useState, useTransition } from 'react'
-import { Patient, UserSession } from '../ApiTypes'
+import { useState } from 'react'
+import { Patient } from '../ApiTypes'
 import { Button, Table, Modal, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 import { deletePatient, postPatient } from '../restApi'
+import { GenericProps, GenericTabProps, GenericModalProps } from './GenericProps'
 
-interface PatientsProps {
-    session: UserSession
-    patients: Patient[]
-}
-
-
-interface PatientsTabProps {
-    patients: Patient[]
-    onAdd: () => void
-    onDelete: (UserId: Number) => void
-}
-
-
-interface PatientModalProps {
-    onClose: () => void
-    onAdd: (patient: Patient) => void
-}
-
+type PatientsProps = GenericProps<Patient>
+type PatientsTabProps = GenericTabProps<Patient>
+type PatientModalProps = GenericModalProps<Patient>
 
 function PatientModal(props: PatientModalProps) {
 
@@ -65,7 +51,6 @@ function PatientModal(props: PatientModalProps) {
 
         setPatient(p)
     }
-
 
     return (
         <div
@@ -118,15 +103,12 @@ function PatientModal(props: PatientModalProps) {
     )
 }
 
-
-
 function PatientTab(props: PatientsTabProps) {
 
-    const patients = props.patients
+    const patients = props.elems
     const { t } = useTranslation('common')
 
     return (
-
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -142,7 +124,6 @@ function PatientTab(props: PatientsTabProps) {
                 </tr>
             </thead>
             <tbody>
-
                 {patients.map(e => (
                     <tr key={e.id.toString()}>
                         <td>{e.id.toString()}</td>
@@ -157,19 +138,14 @@ function PatientTab(props: PatientsTabProps) {
                         </td>
                     </tr>)
                 )}
-
             </tbody>
         </Table>
-
     )
-
 }
-
-
 
 export function Patients(props: PatientsProps) {
 
-    const [patients, setPatients] = useState(props.patients)
+    const [patients, setPatients] = useState(props.elems ? props.elems : [])
     const { t } = useTranslation('common')
     const [showModal, setShowModal] = useState(false)
 
@@ -192,9 +168,9 @@ export function Patients(props: PatientsProps) {
         console.log(patient)
 
         postPatient(patient, props.session).then(
-            _ => {
+            r => {
                 console.log(patient)
-                setPatients([...patients, { ...patient, id: patients.length + 1 }])
+                setPatients([...patients, { ...patient, id: r.id }])
             }
         ).catch(error => console.log(error))
         setShowModal(false)
@@ -204,17 +180,11 @@ export function Patients(props: PatientsProps) {
         setShowModal(false)
     }
 
-
     return (
         <header className="App-header">
             <AdmNav activeKey='/patients' />
-            {showModal && <PatientModal onClose={onCloseModal} onAdd={onAddModal} />}
-            {!showModal &&
-                <PatientTab patients={patients} onAdd={onTabAdd} onDelete={onTabDelete} />
-            }
-
+            {showModal ? <PatientModal onClose={onCloseModal} onAdd={onAddModal} /> :
+                <PatientTab elems={patients} onAdd={onTabAdd} onDelete={onTabDelete} />}
         </header>
-
     )
-
 }

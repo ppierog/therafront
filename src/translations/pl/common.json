@@ -24,7 +24,7 @@
         "patientId": "Id Pacjenta",
         "userId": "Id Użytkownika",
         "crudMask": "Maska CRUD",
-        "encryptedAes": "Zaszyfrowany klucz AES",
+        "encryptedAES": "Zaszyfrowany klucz AES",
         "addManifest": "Dodaj Manifest"
     },
     "patients": {

@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Routes, Route } from 'react-router-dom'
 
-
 export default function App() {
   const [session, setSession] = useState<UserSession>({ token: "", expiresAt: "" })
   const [users, setUsers] = useState<User[]>([])
@@ -58,10 +57,10 @@ export default function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginGroup updateSession={loginHandler} />} />
-        <Route path="/users" element={<Users users={users} session={session} />} />
-        <Route path="/patients" element={<Patients patients={patients} session={session} />} />
-        <Route path="/notes" element={<Notes notes={notes} session={session} />} />
-        <Route path="/manifests" element={<Manifests manifests={manifests} />} />
+        <Route path="/users" element={<Users elems={users} session={session} />} />
+        <Route path="/patients" element={<Patients elems={patients} session={session} />} />
+        <Route path="/notes" element={<Notes elems={notes} session={session} />} />
+        <Route path="/manifests" element={<Manifests elems={manifests} session={session} />} />
       </Routes>
     </div >
 

@@ -1,27 +1,16 @@
 
 import React from 'react'
-import { User, UserSession } from '../ApiTypes'
+import { User } from '../ApiTypes'
 import { Button, Table, Modal, Form, FormGroup, FormLabel, FormControl } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { deleteUser, postUser } from '../restApi'
+import { GenericProps, GenericModalProps, GenericTabProps } from './GenericProps'
 
-interface UsersProps {
-    users: User[]
-    session: UserSession
-}
-
-interface UsersTabProps {
-    users: User[]
-    onAdd: () => void
-    onDelete: (UserId: Number) => void
-}
-
-interface UserModalProps {
-    onClose: () => void
-    onAdd: (user: User) => void
-}
+type UsersProps = GenericProps<User>
+type UsersTabProps = GenericTabProps<User>
+type UserModalProps = GenericModalProps<User>
 
 function UserModal(props: UserModalProps) {
 
@@ -65,7 +54,6 @@ function UserModal(props: UserModalProps) {
         setUser(u)
     }
 
-
     return (
         <div
             className="modal show"
@@ -104,7 +92,6 @@ function UserModal(props: UserModalProps) {
                             <FormControl type="text" placeholder={t('users.enterTelephoneNumber')}
                                 onChange={e => setUserProp("telephoneNumber", e.target.value)} />
                         </FormGroup>
-
                     </Form>
                 </Modal.Body>
 
@@ -119,12 +106,10 @@ function UserModal(props: UserModalProps) {
 
 function UserTab(props: UsersTabProps) {
 
-    const users = props.users
-
+    const users = props.elems
     const { t } = useTranslation('common')
 
     return (
-
         <Table striped bordered hover size="sm">
             <thead>
                 <tr>
@@ -139,7 +124,6 @@ function UserTab(props: UsersTabProps) {
                 </tr>
             </thead>
             <tbody>
-
                 {users.map(e => (
                     <tr key={e.id.toString()}>
                         <td>{e.id.toString()}</td>
@@ -153,7 +137,6 @@ function UserTab(props: UsersTabProps) {
                         </td>
                     </tr>)
                 )}
-
             </tbody>
         </Table>
     )
@@ -161,9 +144,8 @@ function UserTab(props: UsersTabProps) {
 
 export function Users(props: UsersProps) {
 
-
     const [showModal, setShowModal] = useState(false)
-    const [users, setUsers] = useState(props.users)
+    const [users, setUsers] = useState(props.elems ? props.elems : [])
 
     const onTabAdd = () => {
         setShowModal(true)
@@ -183,11 +165,10 @@ export function Users(props: UsersProps) {
     const onAddModal = (user: User) => {
 
         console.log(user)
-
         postUser(user, props.session).then(
-            _ => {
+            r => {
                 console.log(user)
-                setUsers([...users, { ...user, id: users.length + 1 }])
+                setUsers([...users, { ...user, id: r.id }])
             }
         ).catch(error => console.log(error))
         setShowModal(false)
@@ -201,11 +182,8 @@ export function Users(props: UsersProps) {
     return (
         <header className="App-header">
             <AdmNav activeKey='/users' />
-            {showModal && <UserModal onClose={onCloseModal} onAdd={onAddModal} />}
-            {!showModal &&
-                <UserTab users={users} onAdd={onTabAdd} onDelete={onTabDelete} />
-            }
-
+            {showModal ? <UserModal onClose={onCloseModal} onAdd={onAddModal} /> :
+                <UserTab elems={users} onAdd={onTabAdd} onDelete={onTabDelete} />}
         </header>
     )
 
