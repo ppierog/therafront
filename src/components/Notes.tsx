@@ -1,28 +1,15 @@
 
 import React, { useState } from 'react'
-import { Note, UserSession } from '../ApiTypes'
+import { Note } from '../ApiTypes'
 import { Button, Form, FormControl, FormGroup, FormLabel, Modal, Table } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
 import { deleteNote, postNote } from '../restApi'
+import { GenericProps, GenericTabProps, GenericModalProps } from './GenericProps'
 
-interface NotesProps {
-    session: UserSession
-    notes: Note[]
-}
-
-
-interface NoteModalProps {
-    onClose: () => void
-    onAdd: (patient: Note) => void
-}
-
-interface NotesTabProps {
-    notes: Note[]
-    onAdd: () => void
-    onDelete: (noteId: Number) => void
-}
-
+type NotesProps = GenericProps<Note>
+type NoteModalProps = GenericModalProps<Note>
+type NotesTabProps = GenericTabProps<Note>
 
 function NoteModal(props: NoteModalProps) {
 
@@ -100,7 +87,6 @@ function NoteModal(props: NoteModalProps) {
                             <FormLabel>{t('notes.noteDate')}</FormLabel>
                             <FormControl type="text" placeholder={t('notes.enterNoteDate')}
                                 onChange={e => setNoteProp("noteDate", e.target.value)} />
-
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupFileName">
                             <FormLabel>{t('notes.fileName')}</FormLabel>
@@ -112,7 +98,6 @@ function NoteModal(props: NoteModalProps) {
                             <FormControl type="text" placeholder={t('notes.isCrypted')}
                                 onChange={e => setNoteProp("isCrypted", e.target.value)} />
                         </FormGroup>
-
                     </Form>
                 </Modal.Body>
 
@@ -125,12 +110,9 @@ function NoteModal(props: NoteModalProps) {
     )
 }
 
-
-
-
 function NotesTab(props: NotesTabProps) {
 
-    const notes = props.notes
+    const notes = props.elems
     const { t } = useTranslation('common')
     return (
         < Table striped bordered hover size="sm" >
@@ -148,7 +130,6 @@ function NotesTab(props: NotesTabProps) {
                 </tr>
             </thead>
             <tbody>
-
                 {notes.map(e => (
                     <tr key={e.id.toString()}>
                         <td>{e.id.toString()}</td>
@@ -164,17 +145,14 @@ function NotesTab(props: NotesTabProps) {
                         </td>
                     </tr>)
                 )}
-
             </tbody>
         </Table >
     )
-
 }
-
 
 export function Notes(props: NotesProps) {
 
-    const [notes, setNotes] = useState(props.notes)
+    const [notes, setNotes] = useState(props.elems ? props.elems : [])
     const { t } = useTranslation('common')
     const [showModal, setShowModal] = useState(false)
 
@@ -197,9 +175,9 @@ export function Notes(props: NotesProps) {
         console.log(note)
 
         postNote(note, props.session).then(
-            _ => {
+            r => {
                 console.log(note)
-                setNotes([...notes, { ...note, id: notes.length + 1 }])
+                setNotes([...notes, { ...note, id: r.id }])
             }
         ).catch(error => console.log(error))
         setShowModal(false)
@@ -213,12 +191,8 @@ export function Notes(props: NotesProps) {
     return (
         <header className="App-header">
             <AdmNav activeKey='/notes' />
-            {showModal && <NoteModal onClose={onCloseModal} onAdd={onAddModal} />}
-            {!showModal &&
-                <NotesTab notes={notes} onAdd={onTabAdd} onDelete={onTabDelete} />
-            }
-
+            {showModal ? <NoteModal onClose={onCloseModal} onAdd={onAddModal} /> :
+                <NotesTab elems={notes} onAdd={onTabAdd} onDelete={onTabDelete} />}
         </header>
     )
-
 }

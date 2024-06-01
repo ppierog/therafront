@@ -3,6 +3,11 @@ export type UserSession = {
     expiresAt: string
 }
 
+
+export type Id = {
+    id: Number
+}
+
 export type User = {
     email: string,
     id: Number,
@@ -24,13 +29,13 @@ export type Patient = {
 }
 
 export type Note = {
-	id : Number,
-	name : string,
-	patientRowId : Number,
-    sessionDate : Number,
-    noteDate  : Number,
-    fileName  : String,
-    isCrypted : Boolean
+    id: Number,
+    name: string,
+    patientRowId: Number,
+    sessionDate: Number,
+    noteDate: Number,
+    fileName: String,
+    isCrypted: Boolean
 }
 export type Manifest = {
     id: Number,
