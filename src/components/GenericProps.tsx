@@ -5,14 +5,18 @@ export interface GenericProps<T> {
     elems: T[]
 }
 
+//@Todo Be more precise after implementation is finished
 export interface GenericModalProps<T> {
-    onClose: () => void
-    onAdd: (elem: T) => void
+    initElem?: T
+    onClose: () => void                 // Close the modal
+    onPost: (elem: T) => void           // Post -> API
+    onPut?: (elem: T) => void           // Put -> API
 }
 
 export interface GenericTabProps<T> {
     elems: T[]
-    onAdd: () => void
-    onDelete: (elemId: Number) => void
+    onAdd: () => void                   // Shows Modal
+    onEdit?: (e: T) => void             // Show Modal with set fields
+    onDelete: (elemId: Number) => void  // Delete -> API
 }
 

@@ -29,6 +29,7 @@
     },
     "patients": {
         "addPatient": "Dodaj Pacjenta",
+        "editPatient": "Modyfikuj Pacjenta",
         "name": "Nazwa",
         "occupation": "Zawód",
         "birthYear": "Rok urodzenia",
@@ -42,6 +43,7 @@
     },
     "notes": {
         "addNote": "Dodaj Notatkę",
+        "editNote": "Edytuj Notatkę",
         "nameEnter": "Wpisz nazwę",
         "name": "Nazwa",
         "patientId": "Id pacjenta",
@@ -62,6 +64,7 @@
         "email": "Email",
         "telephoneNumber": "Numer Telefonu",
         "addUser": "Dodaj użytkownika",
+        "editUser": "Modyfikuj użytkownika",
         "deleteUser": "Usuń uzytkownika",
         "nameEnter": "Podaj Email",
         "lastNameEnter": "Podaj Nazwisko",

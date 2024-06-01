@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
 
-type ActiveTab = "/users" | "/patients" | "/manifests" | "/notes"
+type ActiveTab = "/users" | "/patients" | "/notes" | "/manifests"
 
 interface AdminNavProps {
   activeKey: ActiveTab
@@ -26,13 +26,11 @@ export function AdmNav(props: AdminNavProps) {
       <Nav.Item key="/patients">
         <Nav.Link eventKey="/patients">{t('navAdm.patients')}</Nav.Link>
       </Nav.Item>
-
-      <Nav.Item key="/manifests">
-        <Nav.Link eventKey="/manifests">{t('navAdm.manifests')}</Nav.Link>
-      </Nav.Item>
-
       <Nav.Item key="/notes">
         <Nav.Link eventKey="/notes">{t('navAdm.notes')}</Nav.Link>
+      </Nav.Item>
+      <Nav.Item key="/manifests">
+        <Nav.Link eventKey="/manifests">{t('navAdm.manifests')}</Nav.Link>
       </Nav.Item>
 
     </Nav>

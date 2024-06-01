@@ -5,7 +5,7 @@ import { Button, Table, Modal, Form, FormGroup, FormLabel, FormControl } from 'r
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
 import React from 'react'
-import { deletePatient, postPatient } from '../restApi'
+import { deletePatient, postPatient, putPatient } from '../restApi'
 import { GenericProps, GenericTabProps, GenericModalProps } from './GenericProps'
 
 type PatientsProps = GenericProps<Patient>
@@ -15,14 +15,16 @@ type PatientModalProps = GenericModalProps<Patient>
 function PatientModal(props: PatientModalProps) {
 
     const { t } = useTranslation('common')
-    const [patient, setPatient] = useState<Patient>({
-        id: -1,
-        name: "",
-        occupation: "",
-        birthYear: 0,
-        city: "",
-        telephoneNumber: ""
-    })
+    const [patient, setPatient] = useState<Patient>(
+        props.initElem ? props.initElem :
+            {
+                id: -1,
+                name: "",
+                occupation: "",
+                birthYear: 0,
+                city: "",
+                telephoneNumber: ""
+            })
 
     const setPatientProp = (properties:
         "name" | "occupation" | "birthYear" | "city" | "telephoneNumber", value: string) => {
@@ -52,6 +54,9 @@ function PatientModal(props: PatientModalProps) {
         setPatient(p)
     }
 
+    const isNewElement = (props.initElem === undefined) || (props.initElem.name === undefined) || (props.initElem.occupation === undefined) ||
+        (props.initElem.name === "") || (props.initElem.occupation === "")
+
     return (
         <div
             className="modal show"
@@ -59,7 +64,7 @@ function PatientModal(props: PatientModalProps) {
         >
             <Modal.Dialog>
                 <Modal.Header closeButton onClick={_event => props.onClose()}>
-                    <Modal.Title>{t('patients.addPatient')}</Modal.Title>
+                    <Modal.Title>{isNewElement ? t('patients.addPatient') : t('patients.editPatient')}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -67,28 +72,28 @@ function PatientModal(props: PatientModalProps) {
                         <FormGroup className="mb-3" controlId="formGroupName">
                             <FormLabel>{t('patients.name')}</FormLabel>
                             <FormControl type="text" placeholder={t('patients.nameEnter')}
-                                onChange={e => setPatientProp("name", e.target.value)}></FormControl>
+                                onChange={e => setPatientProp("name", e.target.value)} value={patient.name}></FormControl>
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupOccupation">
                             <FormLabel>{t('patients.occupation')}</FormLabel>
                             <FormControl type="text" placeholder={t('patients.occupation')}
-                                onChange={e => setPatientProp("occupation", e.target.value)} />
+                                onChange={e => setPatientProp("occupation", e.target.value)} value={patient.occupation} />
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupBirthYear">
                             <FormLabel>{t('patients.birthYear')}</FormLabel>
                             <FormControl type="text" placeholder={t('patients.enterBirthYear')}
-                                onChange={e => setPatientProp("birthYear", e.target.value)} />
+                                onChange={e => setPatientProp("birthYear", e.target.value)} value={String(patient.birthYear)} />
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupCity">
                             <FormLabel>{t('patients.city')}</FormLabel>
                             <FormControl type="text" placeholder={t('patients.enterCity')}
-                                onChange={e => setPatientProp("city", e.target.value)} />
+                                onChange={e => setPatientProp("city", e.target.value)} value={patient.city} />
 
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupTelephoneNumber">
                             <FormLabel>{t('patients.telephoneNumber')}</FormLabel>
                             <FormControl type="text" placeholder={t('patients.enterTelephoneNumber')}
-                                onChange={e => setPatientProp("telephoneNumber", e.target.value)} />
+                                onChange={e => setPatientProp("telephoneNumber", e.target.value)} value={patient.telephoneNumber} />
                         </FormGroup>
 
                     </Form>
@@ -96,7 +101,11 @@ function PatientModal(props: PatientModalProps) {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={e_ => props.onClose()}>{t('actions.close')}</Button>
-                    <Button variant="primary" onClick={e_ => props.onAdd(patient)}>{t('users.addUser')}</Button>
+                    {isNewElement ?
+                        <Button variant="primary" onClick={e_ => props.onPost(patient)}>{t('patients.addPatient')}</Button> :
+                        <Button variant="info" onClick={e_ => props.onPut(patient)}>{t('patients.editPatient')}</Button>
+                    }
+
                 </Modal.Footer>
             </Modal.Dialog>
         </div >
@@ -133,8 +142,8 @@ function PatientTab(props: PatientsTabProps) {
                         <td>{e.city}</td>
                         <td>{e.telephoneNumber}</td>
                         <td>
-                            <Button variant="secondary">{t('actions.edit')}</Button>{' '}
-                            <Button variant="danger" onClick={e_ => props.onDelete(e.id)}>{t('actions.delete')}</Button>{' '}
+                            <Button variant="secondary" onClick={_ => props.onEdit(e)}>{t('actions.edit')} </Button>{' '}
+                            <Button variant="danger" onClick={_ => props.onDelete(e.id)}>{t('actions.delete')}</Button>{' '}
                         </td>
                     </tr>)
                 )}
@@ -146,10 +155,16 @@ function PatientTab(props: PatientsTabProps) {
 export function Patients(props: PatientsProps) {
 
     const [patients, setPatients] = useState(props.elems ? props.elems : [])
-    const { t } = useTranslation('common')
     const [showModal, setShowModal] = useState(false)
+    const [patient, setPatient] = useState<Patient>()
 
     const onTabAdd = () => {
+        setPatient({} as Patient)
+        setShowModal(true)
+    }
+
+    const onTabEdit = (element: Patient) => {
+        setPatient(element)
         setShowModal(true)
     }
 
@@ -164,7 +179,7 @@ export function Patients(props: PatientsProps) {
 
     }
 
-    const onAddModal = (patient: Patient) => {
+    const onPostModal = (patient: Patient) => {
         console.log(patient)
 
         postPatient(patient, props.session).then(
@@ -176,6 +191,25 @@ export function Patients(props: PatientsProps) {
         setShowModal(false)
     }
 
+    const onPutModal = (patient: Patient) => {
+
+        console.log(patient)
+        putPatient(patient, props.session).then(
+            r => {
+                console.log(patient)
+
+                setPatients(patients => {
+                    const newPatients = patients.map((elem, i_) => {
+                        return (elem.id == patient.id) ? patient : elem
+                    })
+                    return newPatients
+                })
+            }
+        ).catch(error => console.log(error))
+        setShowModal(false)
+
+    }
+
     const onCloseModal = () => {
         setShowModal(false)
     }
@@ -183,8 +217,8 @@ export function Patients(props: PatientsProps) {
     return (
         <header className="App-header">
             <AdmNav activeKey='/patients' />
-            {showModal ? <PatientModal onClose={onCloseModal} onAdd={onAddModal} /> :
-                <PatientTab elems={patients} onAdd={onTabAdd} onDelete={onTabDelete} />}
+            {showModal ? <PatientModal onClose={onCloseModal} onPost={onPostModal} initElem={patient} onPut={onPutModal} /> :
+                <PatientTab elems={patients} onAdd={onTabAdd} onDelete={onTabDelete} onEdit={onTabEdit} />}
         </header>
     )
 }

@@ -84,7 +84,7 @@ function ManifestModal(props: ManifestModalProps) {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={e_ => props.onClose()}>{t('actions.close')}</Button>
-                    <Button variant="primary" onClick={e_ => props.onAdd(manifest)}>{t('manifests.addManifest')}</Button>
+                    <Button variant="primary" onClick={e_ => props.onPost(manifest)}>{t('manifests.addManifest')}</Button>
                 </Modal.Footer>
             </Modal.Dialog>
         </div >
@@ -130,7 +130,6 @@ function ManifestsTab(props: ManifestsTabProps) {
 export function Manifests(props: ManifestsProps) {
 
     const [manifests, setManifests] = useState(props.elems ? props.elems : [])
-    const { t } = useTranslation('common')
     const [showModal, setShowModal] = useState(false)
 
     const onTabAdd = () => {
@@ -148,7 +147,7 @@ export function Manifests(props: ManifestsProps) {
         */
     }
 
-    const onAddModal = (manifest: Manifest) => {
+    const onPostModal = (manifest: Manifest) => {
         console.log(manifest)
         /*
                 postPatient(patient, props.session).then(
@@ -170,7 +169,7 @@ export function Manifests(props: ManifestsProps) {
     return (
         <header className="App-header">
             <AdmNav activeKey='/manifests' />
-            {showModal ? <ManifestModal onClose={onCloseModal} onAdd={onAddModal} /> :
+            {showModal ? <ManifestModal onClose={onCloseModal} onPost={onPostModal} /> :
                 <ManifestsTab elems={manifests} onAdd={onTabAdd} onDelete={onTabDelete} />}
         </header>
     )

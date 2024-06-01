@@ -29,7 +29,7 @@ export default function App() {
     getUsers(session).then(users => {
       console.log(users)
       setUsers(users)
-      // navigate("/users")
+      navigate("/users")
     })
 
     getPatients(session).then(patients => {
@@ -48,7 +48,7 @@ export default function App() {
     getManifests(session).then(manifests => {
       console.log(manifests)
       setManifests(manifests)
-      navigate("/manifests")
+      // navigate("/manifests")
     })
   }
 
