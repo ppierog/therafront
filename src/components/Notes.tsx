@@ -4,7 +4,7 @@ import { Note } from '../ApiTypes'
 import { Button, Form, FormControl, FormGroup, FormLabel, Modal, Table } from 'react-bootstrap'
 import { AdmNav } from './AdmNav'
 import { useTranslation } from 'react-i18next'
-import { deleteNote, postNote } from '../restApi'
+import { deleteNote, postNote, putNote } from '../restApi'
 import { GenericProps, GenericTabProps, GenericModalProps } from './GenericProps'
 
 type NotesProps = GenericProps<Note>
@@ -14,31 +14,36 @@ type NotesTabProps = GenericTabProps<Note>
 const Number2DateString = (unix: Number): string => {
     const date = new Date()
     date.setTime(unix.valueOf() * 1000)
-    return date.toDateString()
-}
-const Number2DateString2 = (unix: Number): string => {
-    const date = new Date()
-    date.setTime(unix.valueOf() * 1000)
-    console.log(`${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`)
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+    const month = date.getMonth() + 1
+    const strMonth = month < 10 ? `0${month}` : String(month)
+
+    console.log(`${date.getFullYear()}/${strMonth}/${date.getDate()}`)
+    return `${date.getFullYear()}/${strMonth}/${date.getDate()}`
 }
 
 function NoteModal(props: NoteModalProps) {
 
     const { t } = useTranslation('common')
+    const isNewElement = (props.initElem == undefined) || (props.initElem.name == undefined) || (props.initElem.name == "")
+
+    console.log("props is ")
+    console.log(props.initElem)
+
+
     const [note, setNote] = useState<Note>(
         props.initElem ? props.initElem : {
             id: -1,
             name: "",
             patientRowId: -1,
-            sessionDate: 0,
-            noteDate: 0,
+            sessionDate: 1,
+            noteDate: 1,
             fileName: "",
             isCrypted: false
         })
 
-    const noteDateValue = React.useRef(Number2DateString2(note.noteDate))
-    const sessionDateValue = React.useRef(Number2DateString2(note.sessionDate))
+    const [dateValues, setDateValues] = useState([Number2DateString(note.noteDate), Number2DateString(note.sessionDate)])
+    console.log("sss")
+    console.log(dateValues)
 
     const setNoteProp = (properties:
         "name" | "patientRowId" | "noteDate" | "sessionDate" | "fileName" | "isCrypted", value: string) => {
@@ -71,7 +76,6 @@ function NoteModal(props: NoteModalProps) {
         setNote(n)
     }
 
-    const isNewElement = (props.initElem === undefined) || (props.initElem.name === undefined) || (props.initElem.name === "")
     return (
         <div
             className="modal show"
@@ -97,28 +101,25 @@ function NoteModal(props: NoteModalProps) {
                         <FormGroup className="mb-3" controlId="formGroupSessionDate">
                             <FormLabel>{t('notes.sessionDate')}</FormLabel>
                             <FormControl type="date" placeholder={t('notes.enterSessionDate')}
+                                value={dateValues[1]}
                                 onChange={e => {
-                                    console.log(`On change ${e} ${e.target.value}`)
                                     const date = new Date(e.target.value)
                                     const unixTimestamp = Math.floor(date.getTime() / 1000);
-                                    sessionDateValue.current = e.target.value
+                                    setDateValues(dateValues => [dateValues[0], e.target.value])
                                     setNoteProp("sessionDate", String(unixTimestamp))
                                 }
-                                } value={sessionDateValue.current} />
+                                } />
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupNoteDate">
                             <FormLabel>{t('notes.noteDate')}</FormLabel>
                             <FormControl type="date" placeholder={t('notes.enterNoteDate')}
                                 onChange={e => {
-                                    console.log(`On change ${e} ${e.target.value}`)
                                     const date = new Date(e.target.value)
-                                    console.log(date)
-                                    noteDateValue.current = e.target.value
-
+                                    setDateValues(dateValues => [e.target.value, dateValues[1]])
                                     const unixTimestamp = Math.floor(date.getTime() / 1000);
                                     setNoteProp("noteDate", String(unixTimestamp))
                                 }
-                                } value={noteDateValue.current} />
+                                } value={dateValues[0]} />
                         </FormGroup>
                         <FormGroup className="mb-3" controlId="formGroupFileName">
                             <FormLabel>{t('notes.fileName')}</FormLabel>
@@ -139,7 +140,10 @@ function NoteModal(props: NoteModalProps) {
 
                 <Modal.Footer>
                     <Button variant="secondary" onClick={e_ => props.onClose()}>{t('actions.close')}</Button>
-                    <Button variant="primary" onClick={e_ => props.onPost(note)}>{t('notes.addNote')}</Button>
+                    {isNewElement ?
+                        <Button variant="primary" onClick={e_ => props.onPost(note)}>{t('notes.addNote')}</Button> :
+                        <Button variant="info" onClick={e_ => props.onPut(note)}>{t('notes.editNote')}</Button>
+                    }
                 </Modal.Footer>
             </Modal.Dialog>
         </div >
@@ -191,10 +195,9 @@ export function Notes(props: NotesProps) {
 
     const [notes, setNotes] = useState(props.elems ? props.elems : [])
     const [showModal, setShowModal] = useState(false)
-    const [note, setNote] = useState<Note>()
+    const [note, setNote] = useState<Note | undefined>(undefined)
 
     const onTabAdd = () => {
-        setNote({} as Note)
         setShowModal(true)
     }
     const onTabEdit = (element: Note) => {
@@ -226,6 +229,24 @@ export function Notes(props: NotesProps) {
 
     }
 
+    const onPutModal = (note: Note) => {
+        console.log(note)
+        putNote(note, props.session).then(
+            r => {
+                console.log(note)
+
+                setNotes(notes => {
+                    const newNotes = notes.map((elem, i_) => {
+                        return (elem.id == note.id) ? note : elem
+                    })
+                    return newNotes
+                })
+            }
+        ).catch(error => console.log(error))
+        setShowModal(false)
+
+    }
+
     const onCloseModal = () => {
         setShowModal(false)
     }
@@ -233,7 +254,7 @@ export function Notes(props: NotesProps) {
     return (
         <header className="App-header">
             <AdmNav activeKey='/notes' />
-            {showModal ? <NoteModal onClose={onCloseModal} onPost={onPostModal} initElem={note} /> :
+            {showModal ? <NoteModal initElem={note} onClose={onCloseModal} onPost={onPostModal} onPut={onPutModal} /> :
                 <NotesTab elems={notes} onAdd={onTabAdd} onDelete={onTabDelete} onEdit={onTabEdit} />}
         </header>
     )

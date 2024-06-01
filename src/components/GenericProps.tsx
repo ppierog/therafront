@@ -10,7 +10,7 @@ export interface GenericModalProps<T> {
     initElem?: T
     onClose: () => void                 // Close the modal
     onPost: (elem: T) => void           // Post -> API
-    onPut?: (elem: T) => void           // Put -> API
+    onPut: (elem: T) => void           // Put -> API
 }
 
 export interface GenericTabProps<T> {
